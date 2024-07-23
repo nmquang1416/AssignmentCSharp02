@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Learning_code_2\\12C#_Learning\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj": {}
+    "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj": {}
   },
   "projects": {
-    "E:\\Learning_code_2\\12C#_Learning\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj": {
+    "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Learning_code_2\\12C#_Learning\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
+        "projectUniqueName": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
         "projectName": "AssignmentCSharp02",
-        "projectPath": "E:\\Learning_code_2\\12C#_Learning\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "E:\\Learning_code_2\\12C#_Learning\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\obj\\",
+        "projectPath": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.3.7, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -53,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\PC\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
