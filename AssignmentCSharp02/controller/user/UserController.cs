@@ -93,6 +93,15 @@ public class UserController
 
     public void sendAmountToMyAccount(long id)
     {
+        try
+        {
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         UserRepository userRepository = new UserRepository();
     }
 
