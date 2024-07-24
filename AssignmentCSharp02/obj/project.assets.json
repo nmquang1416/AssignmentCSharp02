@@ -143,19 +143,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
+      "projectUniqueName": "E:\\Learning_code_2\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
       "projectName": "AssignmentCSharp02",
-      "projectPath": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning_code\\AsignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02\\obj\\",
+      "projectPath": "E:\\Learning_code_2\\AssignmentCSharp02\\AssignmentCSharp02\\AssignmentCSharp02.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "E:\\Learning_code_2\\AssignmentCSharp02\\AssignmentCSharp02\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -200,7 +200,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\PC\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
