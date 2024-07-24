@@ -12,13 +12,13 @@ public class TransactionEntity
     public int status { get; set; }
     public DateTime create_at{ get; set; }
     public DateTime update_at{ get; set; }
-    public DateTime create_by{ get; set; }
-    public DateTime update_by{ get; set; }
+    public string create_by{ get; set; }
+    public string update_by{ get; set; }
     public TransactionEntity()
     {
     }
 
-    public TransactionEntity(long transactionId, string accountSend, string personSend, string accountReceive, string personReceive, double transactionAmount, string message, int status, DateTime createAt, DateTime updateAt, DateTime createBy, DateTime updateBy)
+    public TransactionEntity(long transactionId, string accountSend, string personSend, string accountReceive, string personReceive, double transactionAmount, string message, int status, DateTime createAt, DateTime updateAt, string createBy, string updateBy)
     {
         this.transactionId = transactionId;
         this.accountSend = accountSend;

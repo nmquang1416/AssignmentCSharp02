@@ -6,24 +6,26 @@ public class BaseEntity
     public string lastName { get; set; }
     public string email { get; set; }
     public string phone { get; set; }
+    public string salt { get; set; }
     public DateTime birth { get; set; }
     public bool isAdmin { get; set; } 
     public int status { get; set; }
     public DateTime update_at { get; set; }
     public DateTime create_at { get; set; }
-    public DateTime update_by { get; set; }
-    public DateTime create_by { get; set; }
+    public string update_by { get; set; }
+    public string create_by { get; set; }
 
     public BaseEntity()
     {
     }
 
-    public BaseEntity(string firstName, string lastName, string email, string phone, DateTime birth, bool isAdmin, int status, DateTime updateAt, DateTime createAt, DateTime updateBy, DateTime createBy)
+    public BaseEntity(string firstName, string lastName, string email, string phone, string salt, DateTime birth, bool isAdmin, int status, DateTime updateAt, DateTime createAt, string updateBy, string createBy)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.salt = salt;
         this.birth = birth;
         this.isAdmin = isAdmin;
         this.status = status;

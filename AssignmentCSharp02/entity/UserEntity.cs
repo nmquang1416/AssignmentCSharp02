@@ -11,6 +11,7 @@ public class UserEntity : BaseEntity
     public UserEntity()
     {
     }
+    
 
     public UserEntity(long userId, string userName, string userPassword, string accountNumber, double balance)
     {
