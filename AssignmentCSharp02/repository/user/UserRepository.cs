@@ -205,9 +205,9 @@ public List<UserEntity> findAllUser()
             connection.Open();
             MySqlCommand command = new MySqlCommand("select * from users where status = 1 and user_id =" + id);
             command.Connection = connection;
-            
             MySqlDataReader mySqlDataReader = command.ExecuteReader();
-
+            mySqlDataReader.Read();
+            
             var user_id = mySqlDataReader.GetInt64("user_id");
             var user_name = mySqlDataReader.GetString("user_name");
             var user_password = mySqlDataReader.GetString("user_password");
@@ -235,6 +235,7 @@ public List<UserEntity> findAllUser()
             userEntity.lastName = last_name;
             userEntity.email = email;
             userEntity.phone = phone;
+            userEntity.salt = salt;
             userEntity.isAdmin = is_admin;
             userEntity.status = status;
             userEntity.update_at = update_at;

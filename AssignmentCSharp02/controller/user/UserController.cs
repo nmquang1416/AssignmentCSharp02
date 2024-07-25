@@ -1,38 +1,50 @@
 ﻿using System.Collections;
 using AssignmentCSharp02.Entity;
+using AssignmentCSharp02.repository.transaction;
 using AssignmentCSharp02.repository.user;
 
 namespace AssignmentCSharp02.controller.user;
 
 public class UserController
 {
-    private string _userEntityUserName;
-    private string _entityUserName;
-
-    public void signinUser()
+    UserEntity userEntity = new UserEntity();
+    public UserEntity signinUser()
     {
         
-        UserRepository userRepository = new UserRepository();
-        List<UserEntity> users = userRepository.findAllUser();
-        
-        Console.WriteLine("Enter your user name: ");
-        var user_name = Console.ReadLine();
-        
-        Console.WriteLine("Enter your password: ");
-        var password = Console.ReadLine();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            List<UserEntity> users = userRepository.findAllUser();
 
-        bool check = true;
-        foreach (var user in users)
-        {
-            if (user_name==$"{user.userName}" && userRepository.ComparePassword($"{user.userPassword}", $"{password}", $"{user.salt}"))
+            Console.WriteLine("Enter your user name: ");
+            var user_name = Console.ReadLine();
+
+            Console.WriteLine("Enter your password: ");
+            var password = Console.ReadLine();
+
+            bool check = true;
+            foreach (var user in users)
             {
-                Console.WriteLine("success");
-                check = false;
+                if (user_name == $"{user.userName}" &&
+                    userRepository.ComparePassword($"{user.userPassword}", $"{password}", $"{user.salt}"))
+                {
+                    userEntity = user;
+                    Console.WriteLine("success");
+                    check = false;
+                }
             }
+
+            if (check)
+            {
+                Console.WriteLine("fail");
+            }
+
+            return userEntity;
         }
-        if (check)
+        catch (Exception e)
         {
-            Console.WriteLine("fail");
+            Console.WriteLine(e);
+            throw;
         }
     }
 
@@ -80,7 +92,7 @@ public class UserController
         userEntity.email = email;
         userEntity.phone = phone;
         userEntity.salt = salt;
-        userEntity.isAdmin = isAdmin;
+        userEntity.isAdmin = isAdmin;   
         userEntity.status = status;
         userEntity.update_at = update_at;
         userEntity.create_at = create_at;
@@ -95,52 +107,215 @@ public class UserController
     {
         try
         {
+            UserRepository userRepository = new UserRepository();
+            UserEntity userEntity = userRepository.findAllInfoUser(id);
+
+            Console.WriteLine("Enter amount you want send to account: ");
+            double amount = Convert.ToDouble(Console.ReadLine());
             
+            userEntity.balance += amount;
+
+            userRepository.update(userEntity);
+
+            Console.WriteLine("done");
+            // return amount;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
-        UserRepository userRepository = new UserRepository();
     }
 
     public void withdrawAmount(long id)
     {
-        UserRepository userRepository = new UserRepository();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            UserEntity userEntity = userRepository.findAllInfoUser(id);
+            Console.WriteLine("Enter amount you want send to account: ");
+            double amount = Convert.ToDouble(Console.ReadLine());
+            
+            userEntity.balance =- amount;
+
+            userRepository.update(userEntity);
+
+            Console.WriteLine("done");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         
     }
 
-    public void transactionAmount(string account01, string account02)
+    public void transactionAmount()
     {
-        UserRepository userRepository = new UserRepository();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            List<UserEntity> users = userRepository.findAllUser();
+            TransactionEntity transactionEntity = new TransactionEntity();
+            TransactionRepository transactionRepository = new TransactionRepository();
+            UserEntity userEntity = null;
+            
+            Console.WriteLine("Enter account you want transaction: ");
+            string account02 = Console.ReadLine();
+
+            Console.WriteLine("Enter your amount you want send: ");
+            double amount = Convert.ToDouble(Console.ReadLine());
+            
+            Console.WriteLine("Enter account you want transaction: ");
+            string message = Console.ReadLine();
+            
+            foreach (var user in users)
+            {
+                if (account02 == $"{user.accountNumber}")
+                {
+                    userEntity = user;
+                }
+            }
+            userEntity.balance = plusAmount(userEntity.balance, amount);
+            this.userEntity.balance = minusAmount(this.userEntity.balance, amount);
+
+            transactionEntity.accountSend = this.userEntity.accountNumber;
+            transactionEntity.personSend = this.userEntity.firstName;
+            transactionEntity.accountReceive = userEntity.accountNumber;
+            transactionEntity.personReceive = userEntity.firstName;
+            transactionEntity.message = message;
+            transactionEntity.status = 1;
+            transactionEntity.transactionAmount = amount;
+            transactionEntity.create_at = DateTime.Now;
+            transactionEntity.create_by = userEntity.userName;
+            transactionEntity.update_at = DateTime.Now;
+            transactionEntity.update_by = userEntity.userName;
+
+            transactionRepository.save(transactionEntity);
+            userRepository.update(this.userEntity);
+            userRepository.update(userEntity);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public double minusAmount(double amount)
+    public double minusAmount(double balance, double amount)
     {
-        UserRepository userRepository = new UserRepository();
-        return amount;
+        balance -= amount;
+        return balance;
     }
 
-    public double plusAmount(double amount)
+    public double plusAmount(double balance, double amount)
     {
-        UserRepository userRepository = new UserRepository();
-        return amount;
+        balance += amount;
+        return balance;
     }
 
     public void queryBalance(long id)
     {
-        UserRepository userRepository = new UserRepository();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            Console.WriteLine("Your balance: " + userEntity.balance);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public void editInfo(long id)
     {
-        UserRepository userRepository = new UserRepository();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            userRepository.findAllInfoUser(id);
+            
+            Console.WriteLine("Edit first name: ");
+            string firstName = Console.ReadLine();
+            
+            Console.WriteLine("Edit last name: ");
+            string lastName = Console.ReadLine();
+            
+            Console.WriteLine("Edit email: ");
+            string email = Console.ReadLine();
+            
+            Console.WriteLine("Edit phone: ");
+            string phone = Console.ReadLine();
+
+            userEntity.firstName = firstName;
+            userEntity.lastName = lastName;
+            userEntity.email = email;
+            userEntity.phone = phone;
+
+            userRepository.update(userEntity);
+            Console.WriteLine("edit done!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public void editPassword(long id)
     {
-        UserRepository userRepository = new UserRepository();
+        try
+        {
+            UserRepository userRepository = new UserRepository();
+            List<UserEntity> users = userRepository.findAllUser();
+
+            var user_name = userEntity.userName;
+            var password = userEntity.userPassword;
+            
+            string oldPassword;
+            string oldSalt = userEntity.salt;
+            string oldPasswordHashed;
+
+            string newPassword;
+            string newSalt;
+            string newPasswordHashed;
+            string newPasswordWithOldSalt ;
+            
+            do
+            {
+                Console.WriteLine("Enter your old password: ");
+                oldPassword = Console.ReadLine();
+                oldPasswordHashed = userRepository.HashPassword(oldPassword, oldSalt);
+                if (password != oldPasswordHashed)
+                {
+                    Console.WriteLine("input password not equal old password, try again");
+                }
+            } while (password != oldPasswordHashed);
+
+            do
+            {
+                Console.WriteLine("Enter your new password: ");
+                newPassword = Console.ReadLine();
+                
+                newPasswordWithOldSalt = userRepository.HashPassword(newPassword, oldSalt);
+                if (password == newPasswordWithOldSalt)
+                {
+                    Console.WriteLine("new password can't equal old password");
+                }
+            } while (password == newPasswordWithOldSalt);
+
+            newSalt = userRepository.GenerateSalt();
+            newPasswordHashed = userRepository.HashPassword(newPassword, newSalt);
+            userEntity.userPassword = newPasswordHashed;
+
+            userRepository.update(userEntity);
+            Console.WriteLine("done!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public void queryTransactionHistory(string accountNumber)
