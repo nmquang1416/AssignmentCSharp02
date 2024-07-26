@@ -10,7 +10,26 @@ public class TransactionRepository : InterfaceTransactionRepository
     {
         try
         {
+            var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
+            connection.Open();
+            
+            MySqlCommand command = new MySqlCommand(
+                "insert into transaction_history ( account_send, person_send, account_receive, person_receive, transaction_amount, message, status, update_at, create_at, update_by, create_by) " +
+                "values (@account_send, @person_send,@account_receive, @person_receive,@transaction_amount,@message, @status, @update_at, @create_at, @update_by, @create_by)");
+            command.Connection = connection;
 
+            command.Parameters.AddWithValue("@account_send", transactionEntity.accountSend);
+            command.Parameters.AddWithValue("@person_send", transactionEntity.personSend);
+            command.Parameters.AddWithValue("@account_receive", transactionEntity.accountReceive);
+            command.Parameters.AddWithValue("@person_receive", transactionEntity.personReceive);
+            command.Parameters.AddWithValue("@transaction_amount", transactionEntity.transactionAmount);
+            command.Parameters.AddWithValue("@message", transactionEntity.message);
+            command.Parameters.AddWithValue("@status", transactionEntity.status);
+            command.Parameters.AddWithValue("@update_at", transactionEntity.update_at);
+            command.Parameters.AddWithValue("@create_at", transactionEntity.create_at);
+            command.Parameters.AddWithValue("@update_by", transactionEntity.update_by);
+            command.Parameters.AddWithValue("@create_by", transactionEntity.create_by);
+            
             return transactionEntity;
         }
         catch (Exception e)
@@ -27,7 +46,7 @@ public class TransactionRepository : InterfaceTransactionRepository
         {
             var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
             connection.Open();
-            MySqlCommand command = new MySqlCommand("select * from transaction_entity where status = 1 ");
+            MySqlCommand command = new MySqlCommand("select * from transaction_history where status = 1 ");
             command.Connection = connection;
             MySqlDataReader mySqlDataReader = command.ExecuteReader();
             
@@ -75,28 +94,24 @@ public class TransactionRepository : InterfaceTransactionRepository
         {
             var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
             connection.Open();
-            MySqlCommand command = new MySqlCommand("update users set user_name = @user_name, user_password = @user_password, balance = @balance, account_number = @account_number, fisrt_name = @fisrt_name, last_name = @last_name, email = @email, phone = @phone, is_admin = @is_admin, status = @status, update_at = @update_at, create_at = @create_at, update_by = @update_by, create_by = @create_by where user_id =" + userEntity.userId);
+            MySqlCommand command = new MySqlCommand("update transaction_history set account_send = @account_send, person_send = @person_send, account_receive = @account_receive, person_receive = @person_receive, transaction_amount = @transaction_amount, message = @message, create_at = @create_at, update_at = @update_at, create_by = @create_by, update_by = @update_by where account_send =" + transactionEntity.accountSend);
             command.Connection = connection;
+
+            command.Parameters.AddWithValue("@account_send", transactionEntity.accountSend);
+            command.Parameters.AddWithValue("@person_send", transactionEntity.personSend);
+            command.Parameters.AddWithValue("@account_receive", transactionEntity.accountReceive);
+            command.Parameters.AddWithValue("@person_receive", transactionEntity.personReceive);
+            command.Parameters.AddWithValue("@transaction_amount", transactionEntity.transactionAmount);
+            command.Parameters.AddWithValue("@message", transactionEntity.message);
+            command.Parameters.AddWithValue("@create_at", transactionEntity.create_at);
+            command.Parameters.AddWithValue("@create_by", transactionEntity.create_by);
+            command.Parameters.AddWithValue("@update_at", transactionEntity.update_at);
+            command.Parameters.AddWithValue("@update_by", transactionEntity.update_by);
             
-            command.Parameters.AddWithValue("@user_name", transactionEntity.userName);
-            command.Parameters.AddWithValue("@user_password", transactionEntity.userPassword);
-            command.Parameters.AddWithValue("@balance", transactionEntity.balance);
-            command.Parameters.AddWithValue("@account_number", transactionEntity.accountNumber);
-            command.Parameters.AddWithValue("@fisrt_name", transactionEntity.firstName);
-            command.Parameters.AddWithValue("@last_name", transactionEntity.lastName);
-            command.Parameters.AddWithValue("@email", userEntity.email);
-            command.Parameters.AddWithValue("@phone", userEntity.phone);
-            command.Parameters.AddWithValue("@salt", userEntity.salt);
-            command.Parameters.AddWithValue("@is_admin", userEntity.isAdmin);
-            command.Parameters.AddWithValue("@status", userEntity.status);
-            command.Parameters.AddWithValue("@update_at", userEntity.update_at);
-            command.Parameters.AddWithValue("@create_at", userEntity.create_at);
-            command.Parameters.AddWithValue("@update_by", userEntity.update_by);
-            command.Parameters.AddWithValue("@create_by", userEntity.create_by);
             command.ExecuteNonQuery();
             connection.Close();
             Console.WriteLine("done");
-            return userEntity;
+            return transactionEntity;
         }
         catch (Exception e)
         {
@@ -108,6 +123,21 @@ public class TransactionRepository : InterfaceTransactionRepository
 
     public void deleteTransaction(long id)
     {
+        try
+        {
+            var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
+            connection.Open();
+            MySqlCommand command = new MySqlCommand("update transaction_history set status = 0 where transaction_id =" + id);
+            command.Connection = connection;
+            
+            Console.WriteLine("done");
+            connection.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         throw new NotImplementedException();
     }
 }
