@@ -71,6 +71,38 @@ public class TransactionRepository : InterfaceTransactionRepository
 
     public TransactionEntity updateTransaction(TransactionEntity transactionEntity)
     {
+        try
+        {
+            var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
+            connection.Open();
+            MySqlCommand command = new MySqlCommand("update users set user_name = @user_name, user_password = @user_password, balance = @balance, account_number = @account_number, fisrt_name = @fisrt_name, last_name = @last_name, email = @email, phone = @phone, is_admin = @is_admin, status = @status, update_at = @update_at, create_at = @create_at, update_by = @update_by, create_by = @create_by where user_id =" + userEntity.userId);
+            command.Connection = connection;
+            
+            command.Parameters.AddWithValue("@user_name", transactionEntity.userName);
+            command.Parameters.AddWithValue("@user_password", transactionEntity.userPassword);
+            command.Parameters.AddWithValue("@balance", transactionEntity.balance);
+            command.Parameters.AddWithValue("@account_number", transactionEntity.accountNumber);
+            command.Parameters.AddWithValue("@fisrt_name", transactionEntity.firstName);
+            command.Parameters.AddWithValue("@last_name", transactionEntity.lastName);
+            command.Parameters.AddWithValue("@email", userEntity.email);
+            command.Parameters.AddWithValue("@phone", userEntity.phone);
+            command.Parameters.AddWithValue("@salt", userEntity.salt);
+            command.Parameters.AddWithValue("@is_admin", userEntity.isAdmin);
+            command.Parameters.AddWithValue("@status", userEntity.status);
+            command.Parameters.AddWithValue("@update_at", userEntity.update_at);
+            command.Parameters.AddWithValue("@create_at", userEntity.create_at);
+            command.Parameters.AddWithValue("@update_by", userEntity.update_by);
+            command.Parameters.AddWithValue("@create_by", userEntity.create_by);
+            command.ExecuteNonQuery();
+            connection.Close();
+            Console.WriteLine("done");
+            return userEntity;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         throw new NotImplementedException();
     }
 
