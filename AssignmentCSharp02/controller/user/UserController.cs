@@ -8,9 +8,9 @@ namespace AssignmentCSharp02.controller.user;
 public class UserController
 {
     UserEntity userEntity = new UserEntity();
+    TransactionEntity transactionEntity = new TransactionEntity();
     public UserEntity signinUser()
     {
-        
         try
         {
             UserRepository userRepository = new UserRepository();
@@ -22,11 +22,13 @@ public class UserController
             Console.WriteLine("Enter your password: ");
             var password = Console.ReadLine();
 
+            int status = 0;
             bool check = true;
             foreach (var user in users)
             {
+                status = user.status;
                 if (user_name == $"{user.userName}" &&
-                    userRepository.ComparePassword($"{user.userPassword}", $"{password}", $"{user.salt}"))
+                    userRepository.ComparePassword($"{user.userPassword}", $"{password}", $"{user.salt}") && status == 1)
                 {
                     userEntity = user;
                     Console.WriteLine("success");
@@ -34,6 +36,11 @@ public class UserController
                 }
             }
 
+            if (status != 1)
+            {
+                Console.WriteLine("your account is block, please contact for admin to know more!");
+            }
+            
             if (check)
             {
                 Console.WriteLine("fail");
@@ -109,15 +116,30 @@ public class UserController
         {
             UserRepository userRepository = new UserRepository();
             UserEntity userEntity = userRepository.findAllInfoUser(id);
+            TransactionRepository transactionRepository = new TransactionRepository();
 
             Console.WriteLine("Enter amount you want send to account: ");
             double amount = Convert.ToDouble(Console.ReadLine());
             
             userEntity.balance += amount;
 
+            transactionEntity.accountSend = userEntity.accountNumber;
+            transactionEntity.personSend = userEntity.firstName;
+            transactionEntity.accountReceive = userEntity.accountNumber;
+            transactionEntity.personReceive = userEntity.firstName;
+            transactionEntity.transactionAmount = amount;
+            transactionEntity.message = "";
+            transactionEntity.status = 1;
+            transactionEntity.create_at = DateTime.Now;
+            transactionEntity.update_at = DateTime.Now;
+            transactionEntity.create_by = userEntity.userName;
+            transactionEntity.update_by = userEntity.userName;
+            
+            transactionRepository.save(transactionEntity);
             userRepository.update(userEntity);
 
             Console.WriteLine("done");
+            
             // return amount;
         }
         catch (Exception e)
@@ -321,6 +343,23 @@ public class UserController
     public void queryTransactionHistory(string accountNumber)
     {
         UserRepository userRepository = new UserRepository();
+        TransactionRepository transactionRepository = new TransactionRepository();
+
+        List<TransactionEntity> transactionList = transactionRepository.findAllTransactionWithAccountNumber(userEntity.accountNumber);
+
+        foreach (var transaction in transactionList)
+        {
+            Console.WriteLine("\n=====Your Transaction=====");
+            Console.WriteLine("transaction id:" + transaction.transactionId);
+            Console.WriteLine("account send:" + transaction.accountSend);
+            Console.WriteLine("person send:" + transaction.personSend);
+            Console.WriteLine("account receive:" + transaction.accountReceive);
+            Console.WriteLine("person receive:" + transaction.personReceive);
+            Console.WriteLine("transaction amount:" + transaction.transactionAmount);
+            Console.WriteLine("message:" + transaction.message);
+            Console.WriteLine("create at:" + transaction.create_at);
+            Console.WriteLine("create by:" + transaction.create_by);
+        }
     }
 
     public string randomAccountNumber(int length)

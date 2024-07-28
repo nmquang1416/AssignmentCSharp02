@@ -36,7 +36,6 @@ public class UserRepository : InterfaceUserRepository
             command.Parameters.AddWithValue("@create_by", userEntity.create_by);
 
             command.ExecuteNonQuery();
-            Console.WriteLine("done!");
             connection.Clone();
 
             return userEntity;
@@ -99,7 +98,6 @@ public List<UserEntity> findAllUser()
                 result.Add(userEntity);
             }
             connection.Close();
-            Console.WriteLine("done");
             return result;
         }
         catch (Exception e)
@@ -148,8 +146,7 @@ public List<UserEntity> findAllUser()
                 
                 result.Add(transactionEntity);
             }
-
-            Console.WriteLine("done!");
+            
             connection.Close();
             return result;
         }
@@ -186,7 +183,6 @@ public List<UserEntity> findAllUser()
             command.Parameters.AddWithValue("@create_by", userEntity.create_by);
             command.ExecuteNonQuery();
             connection.Close();
-            Console.WriteLine("done");
             return userEntity;
         }
         catch (Exception e)
@@ -206,8 +202,9 @@ public List<UserEntity> findAllUser()
             MySqlCommand command = new MySqlCommand("select * from users where status = 1 and user_id =" + id);
             command.Connection = connection;
             MySqlDataReader mySqlDataReader = command.ExecuteReader();
+            // mySqlDataReader.Read();
+
             mySqlDataReader.Read();
-            
             var user_id = mySqlDataReader.GetInt64("user_id");
             var user_name = mySqlDataReader.GetString("user_name");
             var user_password = mySqlDataReader.GetString("user_password");
@@ -244,7 +241,6 @@ public List<UserEntity> findAllUser()
             userEntity.create_by = create_by;
             
             connection.Close();
-            Console.WriteLine("done");
             return userEntity;
         }
         catch (Exception e)
@@ -263,8 +259,7 @@ public List<UserEntity> findAllUser()
             connection.Open();
             MySqlCommand command = new MySqlCommand("update transaction_entity set status = 0 where transaction_id =" + id);
             command.Connection = connection;
-
-            Console.WriteLine("done");
+            
             connection.Close();
         }
         catch (Exception e)
