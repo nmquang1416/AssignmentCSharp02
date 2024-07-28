@@ -300,6 +300,4 @@ public List<UserEntity> findAllUser()
         string newHash = HashPassword(originPassword, salt);
         return newHash.Equals(hashPassword);
     }
-    
-    
 }
